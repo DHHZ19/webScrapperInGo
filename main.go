@@ -38,7 +38,7 @@ func main() {
 		colly.CacheDir("./courses_cache"),
 	)
 
-	courses := make([]Course, 0, 200)
+	courses := make([]Course, 0, 300)
 
 	c.OnHTML("div.FM-Course-Item-Content", func(e *colly.HTMLElement) {
 		var course Course
