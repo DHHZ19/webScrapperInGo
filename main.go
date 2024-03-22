@@ -27,9 +27,6 @@ func main() {
 	}
 	defer file.Close()
 
-	// Create a channel to signal when the goroutine is done
-	done := make(chan struct{})
-
 	c := colly.NewCollector(
 		colly.AllowedDomains("frontendmasters.com"),
 
@@ -58,14 +55,8 @@ func main() {
 		})
 		courses = append(courses, course)
 	})
-	// Start the goroutine
-	go func() {
-		defer close(done) // Signal that the goroutine is done
-		c.Visit("https://frontendmasters.com/courses")
-	}()
 
-	// Wait for the goroutine to finish
-	<-done
+	c.Visit("https://frontendmasters.com/courses")
 
 	enc := json.NewEncoder(file)
 	enc.SetIndent("", "  ")
